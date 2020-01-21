@@ -2,6 +2,7 @@ import 'dart:math' show pi;
 
 import 'package:flutter/material.dart';
 import 'package:go_to_egipt/entrance_fader.dart';
+import 'package:line_icons/line_icons.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         brightness: Brightness.dark,
-        fontFamily: 'IbarraRealNova',
-        textTheme: TextTheme(body1: TextStyle(fontSize: 24)),
+        fontFamily: 'Deligne',
+        textTheme: TextTheme(body1: TextStyle(fontSize: 28)),
       ),
       home: MyHomePage(),
     );
@@ -216,8 +217,11 @@ class MainText extends StatelessWidget {
           ),
         ),
         SizedBox(height: 32),
-        Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-        Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+        RotatedBox(
+          quarterTurns: 2,
+          child: Icon(LineIcons.angle_double_up, color: Colors.grey),
+        ),
+        SizedBox(height: 16),
         Text('SCROLL DOWN', style: TextStyle(color: Colors.grey)),
       ],
     );
@@ -501,13 +505,13 @@ class _Page3State extends State<Page3> with SingleTickerProviderStateMixin {
             'His original name was\nNot Tutankhamun',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 36,
+              fontSize: 38,
             ),
           ),
           SizedBox(height: 32),
           Text(
             'Tutankhamun was originally named Tutanhaten. This name, whic literally means "living image of the Aten", reflected the fact that Tutankhaten\'s parents worshipped a sun god known as "the Aten". After a few years on the throne the young king.',
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 24),
           ),
           SizedBox(height: 32),
           Text(
@@ -515,7 +519,7 @@ class _Page3State extends State<Page3> with SingleTickerProviderStateMixin {
             style: TextStyle(
               decoration: TextDecoration.underline,
               color: Colors.black,
-              fontSize: 20,
+              fontSize: 24,
             ),
           ),
         ],
