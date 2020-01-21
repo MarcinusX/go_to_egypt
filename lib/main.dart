@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
             top: -0.3 * offset,
             left: 0,
             right: 0,
-            height: screenHeight * 0.8,
+            height: screenHeight,
             child: RepaintBoundary(
               child: Image.asset(
                 'images/sky.png',
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: MainText(),
           ),
           Positioned(
-            top: screenHeight * 0.45 - 0.6 * offset,
+            top: screenHeight * 0.55 - 0.65 * offset,
             right: 0,
             left: 0,
             height: screenHeight * 0.4,
@@ -86,13 +86,13 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Image.asset(
                 'images/pyramid.png',
                 fit: BoxFit.cover,
-                alignment: Alignment.center,
+                alignment: Alignment(0, -0.2),
               ),
             ),
           ),
           Header(),
           Positioned(
-            top: screenHeight * 0.7 - 1 * offset,
+            top: screenHeight * 0.8 - 1 * offset,
             left: 0,
             right: 0,
             height: screenHeight / 3,
@@ -104,34 +104,33 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.65 - 1 * offset,
+            top: screenHeight * 0.8 - 1 * offset,
             left: 0,
             right: 0,
-            height: screenHeight / 3,
+            height: screenHeight * 0.2,
             child: Container(
-              height: screenHeight / 3,
               width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  stops: [0.1, 0.8],
+                  stops: [0, 1],
                   colors: [backgroundColor.withOpacity(0), backgroundColor],
                 ),
               ),
             ),
           ),
-          Positioned(
-            top: screenHeight * 0.9 - 1 * offset,
-            left: 0,
-            right: 0,
-            height: screenHeight / 3,
-            child: Container(
-              height: screenHeight / 3,
-              width: double.infinity,
-              color: backgroundColor,
-            ),
-          ),
+//              Positioned(
+//                top: screenHeight * 0.95 - 1 * offset,
+//                left: 0,
+//                right: 0,
+//                height: screenHeight / 3,
+//                child: Container(
+//                  height: screenHeight / 3,
+//                  width: double.infinity,
+//                  color: backgroundColor,
+//                ),
+//              ),
           Scrollbar(
             child: ListView(
               cacheExtent: 64,
@@ -170,16 +169,18 @@ class Header extends StatelessWidget {
         children: <Widget>[
           Text('GOTOEGYPT'),
           Spacer(),
-          Text('Home'),
-          SizedBox(width: 32),
-          Text('Explore'),
-          SizedBox(width: 32),
-          Text('Articles'),
-          SizedBox(width: 32),
-          Text('Galries'),
-          SizedBox(width: 32),
-          Text('Contact'),
-          SizedBox(width: 64),
+          if (MediaQuery.of(context).size.width > 900) ...[
+            Text('Home'),
+            SizedBox(width: 32),
+            Text('Explore'),
+            SizedBox(width: 32),
+            Text('Articles'),
+            SizedBox(width: 32),
+            Text('Galries'),
+            SizedBox(width: 32),
+            Text('Contact'),
+            SizedBox(width: 64),
+          ],
           Icon(
             Icons.apps,
             color: backgroundColor,
