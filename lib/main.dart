@@ -1,3 +1,5 @@
+import 'dart:math' show pi;
+
 import 'package:flutter/material.dart';
 import 'package:go_to_egipt/entrance_fader.dart';
 
@@ -31,8 +33,10 @@ Color darkerColor = Color.fromRGBO(200, 162, 122, 1);
 
 class _MyHomePageState extends State<MyHomePage> {
   ScrollController _scrollController;
-  double screenHeight;
-  double screenWidth;
+
+  double get screenHeight => MediaQuery.of(context).size.height;
+
+  double get screenWidth => MediaQuery.of(context).size.width;
 
   @override
   void initState() {
@@ -51,19 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    screenHeight ??= MediaQuery.of(context).size.height;
-    screenWidth ??= MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Stack(
         children: <Widget>[
           Positioned(
             top: -0.3 * offset,
             left: 0,
             right: 0,
-            height: screenHeight,
+            height: screenHeight * 0.8,
             child: RepaintBoundary(
               child: Image.asset(
-                'images/sky.jpg',
+                'images/sky.png',
                 fit: BoxFit.cover,
               ),
             ),
@@ -75,14 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
             child: MainText(),
           ),
           Positioned(
-            top: screenHeight * 0.5 - 0.6 * offset,
-            left: screenWidth * 0.3,
-            right: screenWidth * 0.1,
+            top: screenHeight * 0.45 - 0.6 * offset,
+            right: 0,
+            left: 0,
             height: screenHeight * 0.4,
             child: RepaintBoundary(
               child: Image.asset(
-                'images/pyramids.png',
-                fit: BoxFit.fitHeight,
+                'images/pyramid.png',
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
               ),
             ),
           ),
@@ -95,12 +99,12 @@ class _MyHomePageState extends State<MyHomePage> {
             child: RepaintBoundary(
               child: Image.asset(
                 'images/sand.png',
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
           ),
           Positioned(
-            top: screenHeight * 0.7 - 1 * offset,
+            top: screenHeight * 0.65 - 1 * offset,
             left: 0,
             right: 0,
             height: screenHeight / 3,
@@ -115,6 +119,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   colors: [backgroundColor.withOpacity(0), backgroundColor],
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.9 - 1 * offset,
+            left: 0,
+            right: 0,
+            height: screenHeight / 3,
+            child: Container(
+              height: screenHeight / 3,
+              width: double.infinity,
+              color: backgroundColor,
             ),
           ),
           Scrollbar(
@@ -132,8 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Page1(),
                 ),
                 Page2(),
+                Page3(),
                 Container(
-                  height: 1000,
+                  height: 100,
                   color: darkerColor,
                 ),
               ],
@@ -152,7 +168,6 @@ class Header extends StatelessWidget {
       padding: const EdgeInsets.all(64),
       child: Row(
         children: <Widget>[
-//          SizedBox(width: 64),
           Text('GOTOEGYPT'),
           Spacer(),
           Text('Home'),
@@ -170,7 +185,6 @@ class Header extends StatelessWidget {
             color: backgroundColor,
             size: 32,
           ),
-//          SizedBox(width: 64),
         ],
       ),
     );
@@ -196,7 +210,9 @@ class MainText extends StatelessWidget {
         Text(
           'Discover the awe-inspiring\nPyramids of Fize and ancient Egypt\'s',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 60),
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.shortestSide > 400 ? 60 : 40,
+          ),
         ),
         SizedBox(height: 32),
         Icon(Icons.keyboard_arrow_down, color: Colors.grey),
@@ -210,6 +226,8 @@ class MainText extends StatelessWidget {
 class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return FractionallySizedBox(
       widthFactor: 0.7,
       child: Column(
@@ -238,25 +256,33 @@ class Page1 extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 96),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  'The ancient Egyptian civilization, famous for its pyramids, pharaohs, mummies, and tombs, flourished for thousands for thousands of yers. But what was its lasting impact?',
-//                  style: TextStyle(fontWeight: FontWeight.w300),
+          SizedBox(height: height * 0.1),
+          if (width > 440)
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'The ancient Egyptian civilization, famous for its pyramids, pharaohs, mummies, and tombs, flourished for thousands for thousands of yers. But what was its lasting impact?',
+                  ),
                 ),
-              ),
-              SizedBox(width: 64),
-              Expanded(
-                child: Text(
-                  'Watch the video below to learn how ancient Egypt contributed to modern-day society with its many cultural developments, particularly in language & mathematics',
-//                  style: TextStyle(fontWeight: FontWeight.w300),
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: 96),
+                SizedBox(width: 64),
+                Expanded(
+                  child: Text(
+                    'Watch the video below to learn how ancient Egypt contributed to modern-day society with its many cultural developments, particularly in language & mathematics',
+                  ),
+                )
+              ],
+            )
+          else ...[
+            Text(
+              'The ancient Egyptian civilization, famous for its pyramids, pharaohs, mummies, and tombs, flourished for thousands for thousands of yers. But what was its lasting impact?',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Watch the video below to learn how ancient Egypt contributed to modern-day society with its many cultural developments, particularly in language & mathematics',
+            )
+          ],
+          SizedBox(height: height * 0.1),
         ],
       ),
     );
@@ -270,19 +296,18 @@ class Page2 extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Container(
       color: backgroundColor,
-      height: height * 0.8,
+      height: height > width ? height * 0.5 : height * 0.8,
+      width: double.infinity,
       child: Stack(
         children: <Widget>[
           Positioned(
             left: 0,
             right: 0,
-            top: height * 0.2,
-            height: height * 0.2,
+            bottom: height * 0.4,
             child: FittedBox(
               fit: BoxFit.fitWidth,
               child: EntranceFader(
                 offset: Offset(width / 4, 0),
-                delay: Duration(seconds: 1),
                 duration: Duration(seconds: 1),
                 child: Text(
                   'CIVILIZATION',
@@ -297,25 +322,199 @@ class Page2 extends StatelessWidget {
           Positioned(
             left: 0,
             right: 0,
-            top: height * 0.4,
+            bottom: 0,
             height: height * 0.4,
             child: Container(
               color: darkerColor,
             ),
           ),
           Positioned(
-            top: height * 0.05,
-            left: width * 0.15,
-            right: width * 0.15,
-            bottom: width * 0.05,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
             child: EntranceFader(
               offset: Offset(0, height * 0.4),
-              delay: Duration(seconds: 1),
               duration: Duration(seconds: 1),
-              child: Image.asset(
-                'images/camels.jpg',
-                fit: BoxFit.fitWidth,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'images/camel.png',
+                    fit: BoxFit.fitWidth,
+                  ),
+                  Icon(
+                    Icons.play_circle_outline,
+                    size: 100,
+                  ),
+                ],
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Page3 extends StatefulWidget {
+  @override
+  _Page3State createState() => _Page3State();
+}
+
+class _Page3State extends State<Page3> with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+    Future.delayed(
+      Duration(milliseconds: 1000),
+      () {
+        if (mounted) _animationController.forward();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return Container(
+      color: darkerColor,
+      child: FractionallySizedBox(
+        widthFactor: 0.7,
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: height * 0.1),
+            Text('10 THINGS', style: TextStyle(color: Colors.black)),
+            SizedBox(height: height * 0.05),
+            _header(),
+            SizedBox(height: height * 0.1),
+            if (width > height)
+              Row(
+                children: <Widget>[
+                  Expanded(child: _leftSide(width)),
+                  SizedBox(width: width * 0.1),
+                  Expanded(child: _rightSide(height, width))
+                ],
+              )
+            else ...[
+              _leftSide(width),
+              _rightSide(height, width),
+            ],
+            SizedBox(height: height * 0.1),
+          ],
+        ),
+      ),
+    );
+  }
+
+  RichText _header() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 40,
+          fontFamily: 'IbarraRealNova',
+        ),
+        children: [
+          TextSpan(
+            text: 'You probably didn\'t know\n',
+          ),
+          TextSpan(
+            text: 'about ',
+          ),
+          TextSpan(
+            text: 'ancient Egypt',
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'IbarraRealNova',
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _rightSide(double height, double width) {
+    return EntranceFader(
+      offset: Offset(width / 2, 0),
+      delay: Duration(milliseconds: 1000),
+      duration: Duration(seconds: 1),
+      child: Container(
+        height: height / 2,
+        child: Stack(
+          alignment: Alignment(0, 0.5),
+          children: <Widget>[
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, _) {
+                return Transform.rotate(
+                  angle: _animationController.value * 0.5 * pi - pi * 0.7,
+                  child: Container(
+                    width: 360,
+                    height: 360,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white.withOpacity(0.7),
+                          Colors.white.withOpacity(0),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            Image.asset('images/pharaon.png'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _leftSide(double width) {
+    return EntranceFader(
+      offset: Offset(-width / 2, 0),
+      delay: Duration(milliseconds: 1000),
+      duration: Duration(seconds: 1),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'His original name was\nNot Tutankhamun',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 36,
+            ),
+          ),
+          SizedBox(height: 32),
+          Text(
+            'Tutankhamun was originally named Tutanhaten. This name, whic literally means "living image of the Aten", reflected the fact that Tutankhaten\'s parents worshipped a sun god known as "the Aten". After a few years on the throne the young king.',
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(height: 32),
+          Text(
+            'Read More',
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              color: Colors.black,
+              fontSize: 20,
             ),
           ),
         ],
